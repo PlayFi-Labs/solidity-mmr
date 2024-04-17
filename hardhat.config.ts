@@ -1,9 +1,9 @@
 import { HardhatUserConfig } from "hardhat/config";
-
+import "@matterlabs/hardhat-zksync-node";
 import "@matterlabs/hardhat-zksync";
 
 const config: HardhatUserConfig = {
-  defaultNetwork: "zkSyncSepoliaTestnet",
+  defaultNetwork: "inMemoryNode",
   networks: {
     zkSyncSepoliaTestnet: {
       url: "https://sepolia.era.zksync.dev",
