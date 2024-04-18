@@ -1,4 +1,4 @@
-import { deployContract } from "../utils";
+import { deployContract } from "./utils";
 
 // Deploy and fund Paymaster
 export default async function() {

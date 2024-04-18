@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { Contract, Wallet } from "zksync-ethers";
-import { getWallet, deployContract, LOCAL_RICH_WALLETS } from '../../deploy/utils';
+import { getWallet, deployContract, LOCAL_RICH_WALLETS } from '../deploy/utils';
 
 describe("MMR", function () {
   let MMRContract: Contract;
@@ -32,6 +32,34 @@ describe("MMR", function () {
         console.log(res);
         expect(res.left).to.equal(7n);
         expect(res.right).to.equal(14n);
+      });
+      it ('should return 30,15 as children for 31', async () => {
+        const res = await MMRContract.getChildren(31);
+        console.log(res);
+        expect(res.left).to.equal(15n);
+        expect(res.right).to.equal(30n);
+      });
+      it('should be reverted for leaves like 1,2,4', async () => {
+        try {
+            await MMRContract.getChildren(1);
+            expect.fail("Expected getChildren to revert for leaf 1, but it didn't");
+        } catch (error) {
+            expect(error.message).to.include("Not a parent");
+        }
+    
+        try {
+            await MMRContract.getChildren(2);
+            expect.fail("Expected getChildren to revert for leaf 2, but it didn't");
+        } catch (error) {
+            expect(error.message).to.include("Not a parent");
+        }
+    
+        try {
+            await MMRContract.getChildren(4);
+            expect.fail("Expected getChildren to revert for leaf 4, but it didn't");
+        } catch (error) {
+            expect(error.message).to.include("Not a parent");
+        }
       });
     });
     describe('getPeakIndexes()', async () => {

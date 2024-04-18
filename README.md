@@ -59,7 +59,7 @@ npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network inMemoryNode
 3. **Run Tests**
 
 ```bash
-npx hardhat test --network hardhat
+npx hardhat test --network inMemoryNode
 ```
 
 Please note that these steps assume that you have already installed all the necessary dependencies and have a correctly configured Hardhat environment.

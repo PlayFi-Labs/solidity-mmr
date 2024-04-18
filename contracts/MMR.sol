@@ -9,7 +9,7 @@ pragma solidity ^0.8.0;
  *      And it uses keccak256 for its hash function instead of blake2b
  */
 
-/// @title A contract to implement Merkle Mountain Range F
+/// @title A contract to implement Merkle Mountain Range
 /// @dev This contract is a contract to implement Merkle Mountain Range (MMR) in Solidity.
  contract MMR {
 
