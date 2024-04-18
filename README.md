@@ -56,19 +56,15 @@ npm run compile
 npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network inMemoryNode
 ```
 
-3. **Run Tests**
-
-```bash
-npx hardhat test --network inMemoryNode
-```
-
 Please note that these steps assume that you have already installed all the necessary dependencies and have a correctly configured Hardhat environment.
 
 ### Local Tests
 
-Running `npm run test` by default runs the [zkSync In-memory Node](https://era.zksync.io/docs/tools/testing/era-test-node.html) provided by the [@matterlabs/hardhat-zksync-node](https://era.zksync.io/docs/tools/hardhat/hardhat-zksync-node.html) tool.
+1. **Run Tests**
 
-Important: zkSync In-memory Node currently supports only the L2 node. If contracts also need L1, use another testing environment like Dockerized Node. Refer to [test documentation](https://era.zksync.io/docs/tools/testing/) for details.
+```bash
+npx hardhat test --network inMemoryNode
+```
 
 ## Useful Links
 
