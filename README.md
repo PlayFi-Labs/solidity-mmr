@@ -44,10 +44,22 @@ yarn hardhat node-zksync
 
 This command will start a local zkSync node that you can use for testing and development.
 
-2. **Deploy your contracts**: Once the zkSync node is running, you can deploy your contracts using the following command:
+2. **Compile contracts**
 
 ```bash
-sudo npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network inMemoryNode
+npm run compile
+```
+
+3. **Deploy MMR contract**
+
+```bash
+npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network inMemoryNode
+```
+
+3. **Run Tests**
+
+```bash
+npx hardhat test --network hardhat
 ```
 
 Please note that these steps assume that you have already installed all the necessary dependencies and have a correctly configured Hardhat environment.
