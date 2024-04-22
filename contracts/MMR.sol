@@ -85,6 +85,12 @@ pragma solidity ^0.8.0;
         return (width << 1) - numOfPeaks(width);
     }
 
+    /// @dev This function is used to get the width of the Merkle Mountain Range (MMR)
+    /// @return width The width of the MMR
+    function getWidth() public view returns (uint) {
+        return tree.width;
+    }
+
     /// @dev This function is used to get the root of the tree
     /// @return root value of the tree
     function getRoot() public view returns (bytes32) {
