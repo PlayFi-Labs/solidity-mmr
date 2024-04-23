@@ -36,21 +36,27 @@ WALLET_PRIVATE_KEY=your_private_key_here...
 
 To set up a local deployment, you need to first start a zkSync node using Hardhat, and then deploy your contracts. Here are the steps:
 
-1. **Start a zkSync node**: Run the following command to start a zkSync node using Hardhat:
+1. **Install dependencies**: Before starting a zkSync node, you need to install the necessary dependencies. Run the following command:
 
 ```bash
-yarn hardhat node-zksync
+npm install
+```
+
+2. **Start a zkSync node**: Run the following command to start a zkSync node using Hardhat:
+
+```bash
+npx hardhat node-zksync
 ```
 
 This command will start a local zkSync node that you can use for testing and development.
 
-2. **Compile contracts**
+3. **Compile contracts**
 
 ```bash
 npm run compile
 ```
 
-3. **Deploy MMR contract**
+4. **Deploy MMR contract**
 
 ```bash
 npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network inMemoryNode
