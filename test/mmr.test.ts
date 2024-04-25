@@ -1,17 +1,17 @@
 import { expect } from 'chai';
-import { Contract, Wallet } from "zksync-ethers";
+import { Contract, Wallet } from 'zksync-ethers';
 import { getWallet, deployContract, LOCAL_RICH_WALLETS } from '../deploy/utils';
 import { createHash } from 'crypto';
 import { ethers } from 'ethers';
 
-describe("MMR", function () {
+describe('MMR', function () {
   let mmrContract: Contract;
   let ownerWallet: Wallet;
   let dataHash: Array<string> = [];
 
   before(async function () {
     ownerWallet = getWallet(LOCAL_RICH_WALLETS[0].privateKey);
-    mmrContract = await deployContract("MMR", [], { wallet: ownerWallet, silent: true });
+    mmrContract = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
     console.log('MMR Tree : 5 |                             31');
     console.log('           4 |             15                                 30                                    46');
     console.log('           3 |      7             14                 22                 29                 38                 45');
@@ -20,16 +20,16 @@ describe("MMR", function () {
     console.log('       width | 1  2   3  4   5  6     7   8    9  10    11  12   13  14    15  16   17  18    19  20   21  22    23  24   25  26    27');
 
     const gamingData = [
-      { game: "League of Legends", character: "Ahri", ability: "Orb of Deception" },
-      { game: "World of Warcraft", character: "Thrall", ability: "Earthquake" },
-      { game: "Fortnite", weapon: "Pump Shotgun", material: "Wood" },
-      { game: "Valorant", character: "Sage", ability: "Resurrection" },
-      { game: "Overwatch", character: "Mercy", ability: "Valkyrie" },
-      { game: "Dota 2", character: "Invoker", ability: "Sun Strike" },
-      { game: "Apex Legends", character: "Lifeline", ability: "Combat Medic" },
-      { game: "Minecraft", tool: "Pickaxe", material: "Diamond" },
-      { game: "FIFA 2022", team: "Real Madrid", player: "Karim Benzema" },
-      { game: "Elder Scrolls V: Skyrim", character: "Dragonborn", ability: "Fus Ro Dah" }
+      { game: 'League of Legends', character: 'Ahri', ability: 'Orb of Deception' },
+      { game: 'World of Warcraft', character: 'Thrall', ability: 'Earthquake' },
+      { game: 'Fortnite', weapon: 'Pump Shotgun', material: 'Wood' },
+      { game: 'Valorant', character: 'Sage', ability: 'Resurrection' },
+      { game: 'Overwatch', character: 'Mercy', ability: 'Valkyrie' },
+      { game: 'Dota 2', character: 'Invoker', ability: 'Sun Strike' },
+      { game: 'Apex Legends', character: 'Lifeline', ability: 'Combat Medic' },
+      { game: 'Minecraft', tool: 'Pickaxe', material: 'Diamond' },
+      { game: 'FIFA 2022', team: 'Real Madrid', player: 'Karim Benzema' },
+      { game: 'Elder Scrolls V: Skyrim', character: 'Dragonborn', ability: 'Fus Ro Dah' }
     ];
     
 
@@ -98,23 +98,23 @@ describe("MMR", function () {
       it('should be reverted for leaves like 1,2,4', async () => {
         try {
             await mmrContract.getChildren(1);
-            expect.fail("Expected getChildren to revert for leaf 1, but it didn't");
+            expect.fail('Expected getChildren to revert for leaf 1, but it didnt');
         } catch (error) {
-            expect((error as Error).message).to.include("Not a parent");
+            expect((error as Error).message).to.include('Not a parent');
         }
 
         try {
             await mmrContract.getChildren(2);
-            expect.fail("Expected getChildren to revert for leaf 2, but it didn't");
+            expect.fail('Expected getChildren to revert for leaf 2, but it didnt');
         } catch (error) {
-            expect((error as Error).message).to.include("Not a parent");
+            expect((error as Error).message).to.include('Not a parent');
         }
     
         try {
             await mmrContract.getChildren(4);
-            expect.fail("Expected getChildren to revert for leaf 4, but it didn't");
+            expect.fail('Expected getChildren to revert for leaf 4, but it didnt');
         } catch (error) {
-            expect((error as Error).message).to.include("Not a parent");
+            expect((error as Error).message).to.include('Not a parent');
         }
       });
     });
@@ -123,7 +123,7 @@ describe("MMR", function () {
       let res: Array<undefined>;
 
       before(async () => {
-        mmr = await deployContract("MMR", [], { wallet: ownerWallet, silent: true });
+        mmr = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
         // Check if mmr is defined
         if (!mmr) {
           throw new Error('MMR contract is not defined');
@@ -163,7 +163,7 @@ describe("MMR", function () {
     describe('Test for checking the MMR properties as the range increases', async () => {
       let mmr: Contract;
       before(async () => {
-        mmr = await deployContract("MMR", [], { wallet: ownerWallet, silent: true });
+        mmr = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
       });
     
         for (let i = 0; i < 10; i++) {
@@ -184,7 +184,7 @@ describe("MMR", function () {
         }
       });
     });
-    describe("MMR with Complete Test Suite", function () {
+    describe('MMR with Complete Test Suite', function () {
       let mmrContract: Contract;
       let ownerWallet: Wallet;
     
@@ -195,7 +195,7 @@ describe("MMR", function () {
     
       before(async function () {
         ownerWallet = getWallet(LOCAL_RICH_WALLETS[0].privateKey);
-        mmrContract = await deployContract("MMR", [], { wallet: ownerWallet, silent: true });
+        mmrContract = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
       });
     
       describe('MMR Initial and Basic Functional Tests', function () {
