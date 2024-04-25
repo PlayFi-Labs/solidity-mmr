@@ -1,4 +1,4 @@
-# zkSync Hardhat project template
+# Mountain Merkle Range
 
 This project was scaffolded with [zksync-cli](https://github.com/matter-labs/zksync-cli).
 
