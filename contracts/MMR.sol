@@ -24,22 +24,20 @@ pragma solidity ^0.8.0;
         uint256 size;
         uint256 width;
         mapping(uint256 => bytes32) hashes;
-        mapping(bytes32 => bytes) data;
+        mapping(bytes32 => bool) hashExists;
+
     }
 
     Tree private tree;
 
     /// @dev This function is used to append a new hash data to the tree
-    /// @param data The data to be hashed and stored in the tree
-    function append(bytes memory data) public {
-        // Hash the leaf node first
-        bytes32 dataHash = keccak256(data);
-        if(keccak256(tree.data[dataHash]) != dataHash) {
-            tree.data[dataHash] = data;
-        }
+    /// @param dataHash The data hashed to be appended to the tree
+    function append(bytes32 dataHash) public {
         bytes32 leaf = hashLeaf(tree.size + 1, dataHash);
         // Put the hashed leaf to the map
         tree.hashes[tree.size + 1] = leaf;
+        // Add the hash to the hashExists mapping
+        tree.hashExists[dataHash] = true;
         tree.width += 1;
         // Find peaks for the enlarged tree
         uint256[] memory peakIndexes = getPeakIndexes(tree.width);
@@ -369,6 +367,13 @@ pragma solidity ^0.8.0;
     /// @return The keccak256 hash of the hash of a leaf node with hash(M | DATA ) M is the index of the node
     function hashLeaf(uint256 index, bytes32 dataHash) public pure returns (bytes32) {
         return keccak256(abi.encodePacked(index, dataHash));
+    }
+
+    /// @dev Check if a specific hash exists in the MMR
+    /// @param hash The hash to check
+    /// @return Boolean indicating if the hash exists in the tree
+    function isHashAppended(bytes32 hash) public view returns (bool) {
+        return tree.hashExists[hash];
     }
 
     /// @dev This function calculates the height of a mountain (sub-tree) in a Merkle Mountain Range (MMR) given its size
