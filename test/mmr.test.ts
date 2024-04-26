@@ -29,8 +29,30 @@ describe('MMR', function () {
       { game: 'Apex Legends', character: 'Lifeline', ability: 'Combat Medic' },
       { game: 'Minecraft', tool: 'Pickaxe', material: 'Diamond' },
       { game: 'FIFA 2022', team: 'Real Madrid', player: 'Karim Benzema' },
-      { game: 'Elder Scrolls V: Skyrim', character: 'Dragonborn', ability: 'Fus Ro Dah' }
-    ];
+      { game: 'Elder Scrolls V: Skyrim', character: 'Dragonborn', ability: 'Fus Ro Dah' },
+      { game: 'Halo', character: 'Master Chief', weapon: 'Energy Sword' },
+      { game: 'Call of Duty', weapon: 'M4A1', attachment: 'Red Dot Sight' },
+      { game: 'Battlefield', vehicle: 'Tank', model: 'T-34' },
+      { game: 'The Witcher 3', character: 'Geralt', ability: 'Igni' },
+      { game: 'Cyberpunk 2077', character: 'V', ability: 'Hack' },
+      { game: 'Animal Crossing', item: 'Fishing Rod', material: 'Bamboo' },
+      { game: 'Super Mario Odyssey', character: 'Mario', ability: 'Triple Jump' },
+      { game: 'Dark Souls III', character: 'Ashen One', weapon: 'Sword of Fire' },
+      { game: 'Bloodborne', character: 'Hunter', weapon: 'Hunter\'s Axe' },
+      { game: 'Sekiro', character: 'Wolf', ability: 'Shinobi Prosthetic' },
+      { game: 'Street Fighter V', character: 'Ryu', ability: 'Hadoken' },
+      { game: 'Tekken 7', character: 'Jin Kazama', ability: 'Electric Wind God Fist' },
+      { game: 'Genshin Impact', character: 'Diluc', ability: 'Dawn' },
+      { game: 'Destiny 2', character: 'Cayde-6', weapon: 'Ace of Spades' },
+      { game: 'Borderlands 3', character: 'Moze', ability: 'Iron Bear' },
+      { game: 'Assassin\'s Creed Odyssey', character: 'Kassandra', ability: 'Spartan Kick' },
+      { game: 'Star Wars Jedi: Fallen Order', character: 'Cal Kestis', ability: 'Force Push' },
+      { game: 'Monster Hunter World', weapon: 'Long Sword', material: 'Dragonbone' },
+      { game: 'Mass Effect 3', character: 'Shepard', ability: 'Biotic Charge' },
+      { game: 'Diablo III', character: 'Necromancer', ability: 'Corpse Explosion' },
+      { game: 'Path of Exile', character: 'Exile', ability: 'Vaal Skill' },
+      { game: 'Warframe', character: 'Rhino', ability: 'Charge' }
+    ];    
     
 
     for (let i = 0; i < gamingData.length; i++) {
@@ -118,6 +140,67 @@ describe('MMR', function () {
         }
       });
     });
+    //TODO: review the logic of peak calculation in the MMR contract
+    describe("Validate correct peak index calculation", function() {
+      beforeEach(async function () {
+        mmrContract = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
+      });
+      it("should return 2 peaks when total elements are 3", async function() {
+          for (let i = 0; i < 3; i++) {
+              await mmrContract.append(dataHash[i]);
+          }
+          const width = await mmrContract.getWidth();
+          const res = await mmrContract.numOfPeaks(width);
+          expect(res).to.equal(2n); // Correct for 3 elements (11 in binary)
+      });
+  
+      it("should return 3 peaks when total elements are 7", async function() {
+          for (let i = 0; i < 7; i++) { // Reset index to include 7 elements total from scratch
+              await mmrContract.append(dataHash[i]);
+          }
+          const width = await mmrContract.getWidth();
+          const res = await mmrContract.numOfPeaks(width);
+          expect(res).to.equal(3n); // Correct for 7 elements (111 in binary)
+      });
+  
+      it("should return 4 peaks when total elements are 15", async function() {
+          for (let i = 0; i < 15; i++) { // Reset index to include 15 elements total from scratch
+              await mmrContract.append(dataHash[i]);
+          }
+          const width = await mmrContract.getWidth();
+          const res = await mmrContract.numOfPeaks(width);
+          expect(res).to.equal(4n); // Correct for 15 elements (1111 in binary)
+      });
+  
+      it("should return 5 peaks when total elements are 31", async function() {
+          for (let i = 0; i < 31; i++) { // Reset index to include 31 elements total from scratch
+              await mmrContract.append(dataHash[i]);
+          }
+          const width = await mmrContract.getWidth();
+          const res = await mmrContract.numOfPeaks(width);
+          expect(res).to.equal(5n); // Correct for 31 elements (11111 in binary)
+      });
+
+    //TODO: Review the logic of getPeakIndexes() function
+    //describe('Validate correct peak indexes calculation', async () => {
+    //  it ('should return peak indexes [15, 22, 25] when total elements are 14', async () => {
+    //    const res = await mmrContract.getPeakIndexes(14);
+    //    expect(res[0]).to.equal(15n);
+    //    expect(res[1]).to.equal(22n);
+    //    expect(res[2]).to.equal(25n);
+    //  });
+    //  it ('should return peak indexes [31, 38, 41] when total elements are 30', async () => {
+    //    const res = await mmrContract.getPeakIndexes(30);
+    //    expect(res[0]).to.equal(31n);
+    //    expect(res[1]).to.equal(38n);
+    //    expect(res[2]).to.equal(41n);
+    //  });
+    //  it ('should return peak index [47] when total elements are 46', async () => {
+    //    const res = await mmrContract.getPeakIndexes(46);
+    //    expect(res[0]).to.equal(47n);
+    //  });
+    //});
+  });
   context('Test for checking the MerkleProof creation', async () => {
       let mmr;
       let res: Array<undefined>;
