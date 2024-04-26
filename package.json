@@ -1,13 +1,12 @@
 {
-  "name": "zksync-hardhat-template",
-  "description": "A template for zkSync smart contracts development with Hardhat",
-  "private": true,
-  "author": "Matter Labs",
+  "name": "playfi-mmr",
+  "version": "1.0.0",
+  "description": "Mountain Merkle Range project focused on the implementation of Merkle Mountain Ranges (MMRs) in Solidity",
   "license": "MIT",
-  "repository": "https://github.com/matter-labs/zksync-hardhat-template.git",
+  "repository": "https://github.com/PlayFi-Labs/solidity-mmr",
   "scripts": {
-    "deploy": "hardhat deploy-zksync --script 01_deploy_mmr.ts",
-    "interact": "hardhat deploy-zksync --script interact.ts",
+    "node": "npx hardhat node-zksync",
+    "deploy": "npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network inMemoryNode",
     "compile": "hardhat compile",
     "clean": "hardhat clean",
     "test": "hardhat test --network hardhat"
