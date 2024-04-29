@@ -6,7 +6,6 @@ pragma solidity ^0.8.0;
  * @title Merkle Mountain Range solidity library
  *
  * @dev The index of this MMR implementation starts from 1 not 0.
- *      And it uses keccak256 for its hash function instead of blake2b
  */
 
 /// @title A contract to implement Merkle Mountain Range
