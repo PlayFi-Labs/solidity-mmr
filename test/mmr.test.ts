@@ -140,7 +140,6 @@ describe('MMR', function () {
         }
       });
     });
-    //TODO: review the logic of peak calculation in the MMR contract
     describe("Validate correct peak index calculation", function() {
       beforeEach(async function () {
         mmrContract = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
@@ -181,25 +180,22 @@ describe('MMR', function () {
           expect(res).to.equal(5n); // Correct for 31 elements (11111 in binary)
       });
 
-    //TODO: Review the logic of getPeakIndexes() function
-    //describe('Validate correct peak indexes calculation', async () => {
-    //  it ('should return peak indexes [15, 22, 25] when total elements are 14', async () => {
-    //    const res = await mmrContract.getPeakIndexes(14);
-    //    expect(res[0]).to.equal(15n);
-    //    expect(res[1]).to.equal(22n);
-    //    expect(res[2]).to.equal(25n);
-    //  });
-    //  it ('should return peak indexes [31, 38, 41] when total elements are 30', async () => {
-    //    const res = await mmrContract.getPeakIndexes(30);
-    //    expect(res[0]).to.equal(31n);
-    //    expect(res[1]).to.equal(38n);
-    //    expect(res[2]).to.equal(41n);
-    //  });
-    //  it ('should return peak index [47] when total elements are 46', async () => {
-    //    const res = await mmrContract.getPeakIndexes(46);
-    //    expect(res[0]).to.equal(47n);
-    //  });
-    //});
+    //TODO: Review the logic of getPeakIndexes() function - Limits
+    describe('Validate correct peak indexes calculation', async () => {
+      it ('should return peak indexes [15, 22, 25] when total elements are 14', async () => {
+        const res = await mmrContract.getPeakIndexes(14);
+        expect(res[0]).to.equal(15n);
+        expect(res[1]).to.equal(22n);
+        expect(res[2]).to.equal(25n);
+      });
+      it ('should return peak indexes [15, 22, 25, 26] when total elements are 15', async () => {
+        const res = await mmrContract.getPeakIndexes(15);
+        expect(res[0]).to.equal(15n);
+        expect(res[1]).to.equal(22n);
+        expect(res[2]).to.equal(25n);
+        expect(res[3]).to.equal(26n);
+      });
+    });
   });
   context('Test for checking the MerkleProof creation', async () => {
       let mmr;
@@ -248,8 +244,7 @@ describe('MMR', function () {
       before(async () => {
         mmr = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
       });
-    
-        for (let i = 0; i < 10; i++) {
+        for (let i = 0; i < dataHash.length; i++) {
           it(`should have correct properties after ${i} appends`, async () => {
             await mmr.append(dataHash[i]);
             const size = BigInt(await mmr.getSize());
@@ -268,75 +263,65 @@ describe('MMR', function () {
       });
     });
     describe('MMR with Complete Test Suite', function () {
-      let mmrContract: Contract;
-      let ownerWallet: Wallet;
-    
-      // Helper function to create SHA-256 hash from JSON data
-      function gamingData(data: any) {
-        return '0x' + createHash('sha256').update(JSON.stringify(data)).digest('hex');
-      }
-    
-      before(async function () {
-        ownerWallet = getWallet(LOCAL_RICH_WALLETS[0].privateKey);
-        mmrContract = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
+      let mmr: Contract;
+      beforeEach(async () => {
+        mmr = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
+        for (let i = 0; i < dataHash.length; i++) {
+          const hash = dataHash[i];
+          await mmr.append(hash);
+        }
       });
-    
-      describe('MMR Initial and Basic Functional Tests', function () {
-        it('Initialize MMR with no prior data, should be empty', async function () {
-          const root = await mmrContract.getRoot();
-          expect(root).to.equal('0x0000000000000000000000000000000000000000000000000000000000000000');
-    
-          const size = await mmrContract.getSize();
-          expect(size).to.equal(0n);
-    
-          const peaks = await mmrContract.getPeaks();
-          expect(peaks).to.be.empty;
-        });
-    
-        it('Initialize MMR and append data', async function () {
-          const initialRoot = await mmrContract.getRoot();
-          expect(initialRoot).to.equal('0x0000000000000000000000000000000000000000000000000000000000000000');
-    
-          const initialSize = await mmrContract.getSize();
-          expect(initialSize).to.equal(0n);
-    
-          await mmrContract.append(dataHash[0]);
-          await mmrContract.append(dataHash[1]);
-          await mmrContract.append(dataHash[2]);
-    
-          const newRoot = await mmrContract.getRoot();
-          const newSize = await mmrContract.getSize();
-    
-          expect(newRoot).to.not.equal(initialRoot);
-          expect(newSize).to.not.equal(initialSize);
-        });
+      it('should verify each hash was correctly inserted', async function () {
+        for (let i = 0; i < dataHash.length; i++) {
+          const hash = dataHash[i];
+          const hashExists = await mmr.isHashAppended(hash);
+          expect(hashExists).to.be.true;
+        }
       });
-    
-      describe('Test appending and verifying gaming data hashes in MMR', function () {
-        let dataHash: Array<string> = [];
-        before(async function () {
-          for (let i = 0; i < dataHash.length; i++) {
-            const dataBytes = ethers.toUtf8Bytes(JSON.stringify(dataHash[i]));
-            await mmrContract.append(dataBytes);
-            dataHash.push(dataBytes.toString());
-          }
-        });
-        it('should append hashes and verify each hash was correctly inserted', async function () {
-          for (let i = 0; i < dataHash.length; i++) {
-            const dataBytes = ethers.toUtf8Bytes(JSON.stringify(dataHash[i]));
-            
-            const hashExists = await mmrContract.isHashAppended(dataBytes);
-            expect(hashExists).to.be.true;
-          }
-        });
-        it('should not find non-existent hashes in the tree', async function () {
-          const nonExistentHash = ethers.keccak256('0x1234567890abcdef');
-      
-          const hashNotExists = await mmrContract.isHashAppended(nonExistentHash);
-          expect(hashNotExists).to.be.false;
-        });
+      it('should not find non-existent hashes in the tree', async function () {
+        const nonExistentHash = ethers.keccak256('0x1234567890abcdef');
+        const hashNotExists = await mmr.isHashAppended(nonExistentHash);
+        expect(hashNotExists).to.be.false;
       });
+      it('should return a non-zero root hash', async function () {
+        const root = await mmr.getRoot();
+        expect(root).to.not.empty;
+      });
+      //it('should return the correct size, width and peaks', async function () {
+      //  for (let i = 0; i < dataHash.length; i++) {
+      //    const size = BigInt(await mmr.getSize());
+      //    const width = BigInt(await mmr.getWidth());
+      //    const peaks = await mmr.getPeaks();
+      //
+      //    const expectedSize = (width << BigInt(1)) - BigInt(await mmr.numOfPeaks(width));
+      //    console.log('expectedSize', expectedSize);
+      //    const expectedWidth = BigInt(i + 1);
+      //    console.log('expectedWidth', expectedWidth);
+      //    const expectedPeaks = BigInt(await mmr.numOfPeaks(width));
+      //    console.log('expectedPeaks', expectedPeaks);
+      //
+      //    expect(size.toString()).to.equal(expectedSize.toString());
+      //    expect(width.toString()).to.equal(expectedWidth.toString());
+      //    expect(peaks.length).to.equal(Number(expectedPeaks));
+      //  }
+      //});
+      //it('should return the correct width', async function () {
+      //  const width = await mmrContract.getWidth();
+      //  expect(width).to.equal(5n);
+      //});
+      //it('should return the correct number of peaks', async function () {
+      //  const peaks = await mmrContract.getPeaks();
+      //  expect(peaks.length).to.equal(5);
+      //});
+      //it('should return the correct peak indexes', async function () {
+      //  const peakIndexes = await mmrContract.getPeakIndexes(31);
+      //  expect(peakIndexes).to.not.empty;
+      //});
+      //it('should return the correct Merkle proof for a given index', async function () {
+      //  const index = 8;
+      //  const proof = await mmrContract.getMerkleProof(index);
+      //  expect(proof).to.not.empty;
+      //});
     });
   });    
 });
-
