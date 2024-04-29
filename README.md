@@ -1,6 +1,8 @@
 # Mountain Merkle Range
 
-This project was scaffolded with [zksync-cli](https://github.com/matter-labs/zksync-cli).
+This project was scaffolded with [zksync-cli](https://github.com/matter-labs/zksync-cli) and is focused on the implementation of Merkle Mountain Ranges.
+
+Merkle Mountain Ranges (MMRs) are an advanced data structure derived from Merkle trees, designed to store lists of items efficiently. One of their main benefits is the ability to provide compact proofs of inclusion, making it highly efficient to verify whether an item is part of a list without needing the entire dataset. Additionally, MMRs support append-only operations, allowing data to be added while maintaining the integrity and verifiability of the structure. This makes MMRs particularly useful in scenarios where data integrity and auditability are crucial, such as in blockchain technology and data security applications.
 
 ## Project Layout
 
@@ -9,28 +11,25 @@ This project was scaffolded with [zksync-cli](https://github.com/matter-labs/zks
 - `/test`: Test files.
 - `hardhat.config.ts`: Configuration settings.
 
-## How to Use
+## Setting Up Environment
 
-- `npm run compile`: Compiles contracts.
-- `npm run deploy-mmr`: Deploys using script `deploy/mmr/01_deploy_mmr.ts`.
-- `npm run interact`: Interacts with the deployed contract using `/deploy/interact.ts`.
-- `npm run test`: Tests the contracts.
+This project uses `.env` files to secure private keys. Follow these steps to set up:
 
-Note: Both `npm run deploy-mmr` is set in the `package.json`. You can also run your files directly, for example: `npx hardhat deploy-zksync --script deploy-mmr.ts`
+1. Move `.env.example` to `.env` with `mv .env.example .env`
+2. Add your private key in `.env`:
 
-### Environment Settings
-
-To keep private keys safe, this project pulls in environment variables from `.env` files. Primarily, it fetches the wallet's private key.
-
-Rename `.env.example` to `.env` and fill in your private key:
-
-```
+```bash
 WALLET_PRIVATE_KEY=your_private_key_here...
 ```
 
-### Network Support
+## How to Use
 
-`hardhat.config.ts` comes with a list of networks to deploy and test contracts. Add more by adjusting the `networks` section in the `hardhat.config.ts`. To make a network the default, set the `defaultNetwork` to its name. You can also override the default using the `--network` option, like: `hardhat test --network dockerizedNode`.
+- `npm run node`: Starts a local Hardhat node with `npx hardhat node-zksync`.
+- `npm run compile`: Compiles contracts.
+- `npm run deploy`: Deploys using script `npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network inMemoryNode`.
+- `npm run test`: Tests the contracts.
+
+Note: `npm run deploy` is set in the `package.json`. You can also run your files directly, for example: `npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network <NETWORK>`
 
 ### Local Deployment
 
@@ -45,7 +44,7 @@ npm install
 2. **Start a zkSync node**: Run the following command to start a zkSync node using Hardhat:
 
 ```bash
-npx hardhat node-zksync
+npm run node
 ```
 
 This command will start a local zkSync node that you can use for testing and development.
@@ -74,11 +73,10 @@ npx hardhat test --network inMemoryNode
 
 ## Useful Links
 
-- [Docs](https://era.zksync.io/docs/dev/)
-- [Official Site](https://zksync.io/)
-- [GitHub](https://github.com/matter-labs)
-- [Twitter](https://twitter.com/zksync)
-- [Discord](https://join.zksync.dev/)
+- [Official Site](https://www.playfi.ai/)
+- [GitHub](https://github.com/PlayFi-Labs)
+- [Twitter](https://twitter.com/PlayFiGaming)
+- [Discord](https://discord.com/invite/playfi)
 
 ## License
 
