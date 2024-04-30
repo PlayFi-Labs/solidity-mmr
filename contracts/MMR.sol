@@ -4,7 +4,6 @@ pragma solidity ^0.8.0;
 /**
  * @author Wanseob Lim <email@wanseob.com>
  * @title Merkle Mountain Range solidity library
- *
  * @dev The index of this MMR implementation starts from 1 not 0.
  */
 
