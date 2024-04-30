@@ -322,7 +322,15 @@ describe('MMR', function () {
         expect(peakIndexes[2]).to.equal(53n);
         expect(peakIndexes[3]).to.equal(56n);
         expect(peakIndexes[4]).to.equal(57n);
-      });  
+      });
+      it('should revert on non-existent leaf index for Merkle proof', async function () {
+        const nonExistentIndex = 58;
+        try {
+          await mmr.getMerkleProof(nonExistentIndex);
+        } catch (error) {
+          expect((error as Error).message).to.include("Out of range");
+        }
+      });
     });
-  });    
+  });
 });
