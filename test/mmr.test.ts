@@ -333,4 +333,27 @@ describe('MMR', function () {
       });
     });
   });
+  context('MMR Performance Testing', function () {
+    describe('Performance measure for large-scale appends', function () { 
+      let mmr: Contract;
+      before(async () => {
+        mmr = await deployContract('MMR', [], { wallet: ownerWallet, silent: true });
+        for (let i = 0; i < dataHash.length; i++) {
+          const hash = dataHash[i];
+          await mmr.append(hash);
+        }
+      });
+      it('should return the correct width', async function () {
+        this.timeout(600000);
+        const elementsToAppend = 500;
+        const initialWidth= Number(await mmr.getWidth());
+        const moreHashes = new Array(elementsToAppend).fill(undefined).map(() => ethers.keccak256(ethers.randomBytes(32)));
+        for (let hash of moreHashes) {
+          await mmr.append(hash);
+        }
+        const finalWidth = Number(await mmr.getWidth());
+        expect(finalWidth).to.be.equal(initialWidth + elementsToAppend);
+      });
+    });
+  });
 });
