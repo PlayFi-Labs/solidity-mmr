@@ -1,7 +1,6 @@
 import { expect } from 'chai';
 import { Contract, Wallet } from 'zksync-ethers';
 import { getWallet, deployContract, LOCAL_RICH_WALLETS } from '../deploy/utils';
-import { createHash } from 'crypto';
 import { ethers } from 'ethers';
 
 describe('MMR', function () {
@@ -170,7 +169,6 @@ describe('MMR', function () {
               await mmrContract.append(dataHash[i]);
           }
           const width = await mmrContract.getWidth();
-          const size = await mmrContract.getSize();
           const res = await mmrContract.numOfPeaks(width);
           expect(res).to.equal(5n); // Correct for 31 elements (11111 in binary)
       });
@@ -353,16 +351,25 @@ describe('MMR', function () {
           await mmr.append(hash);
         }
       });
-      it('should return the correct width', async function () {
-        const finalWidth = Number(await mmr.getWidth());
-        expect(finalWidth).to.be.equal(initialWidth + elementsToAppend);
-      });
       it('should verify each hash was correctly inserted', async function () {
         const allHashes = dataHash.concat(moreHashes);
         for (let i = 0; i < allHashes.length; i++) {
           const hashExists = await mmr.isHashAppended(allHashes[i]);
           expect(hashExists).to.be.true;
         }
+      });
+      it('should return the correct width', async function () {
+        const finalWidth = Number(await mmr.getWidth());
+        expect(finalWidth).to.be.equal(initialWidth + elementsToAppend);
+      });
+      it('should return the correct size', async function () {
+        const finalSize = await mmr.getSize();
+        expect(finalSize).to.be.equal(1058n);
+      });
+      it('should return the correct number of peaks', async function () {
+        const finalWidth = Number(await mmr.getWidth());
+        const peaks = await mmr.numOfPeaks(finalWidth);
+        expect(peaks).to.equal(4n);
       });
     });
   });
