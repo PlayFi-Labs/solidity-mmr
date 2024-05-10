@@ -332,7 +332,7 @@ describe('MMR', function () {
     });
   });
   context('MMR Performance Testing', function () {
-    this.timeout(600000); // Set the timeout for the whole context
+    this.timeout(60000);
     describe('Performance measure for large-scale appends', function () { 
       let mmr: Contract;
       let initialWidth: number;
