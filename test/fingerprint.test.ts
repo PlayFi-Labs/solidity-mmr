@@ -3,7 +3,7 @@ import { Contract, Wallet } from 'zksync-ethers';
 import { getWallet, deployContract, LOCAL_RICH_WALLETS } from '../deploy/utils';
 import { ethers } from 'ethers';
 
-describe.only('FingerPrint Contract', function () {
+describe('FingerPrint Contract', function () {
     let fingerPrintContract: Contract;
     let ownerWallet: Wallet;
     let dataHash: string;
@@ -20,12 +20,8 @@ describe.only('FingerPrint Contract', function () {
     describe('Function appendData', function () {
         it('should revert if dataHash is zero', async function () {
             const zeroHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
-            try {
-                await fingerPrintContract.appendData(zeroHash);
-                expect.fail('Expected appendData to revert with zero hash, but it did not');
-            } catch (error) {
-                expect((error as Error).message).to.include('revert');
-            }
+            await expect(fingerPrintContract.appendData(zeroHash))
+                .to.be.revertedWithCustomError(fingerPrintContract, "InvalidDataHash");
         });
 
         it('should append a valid data hash successfully', async function () {
@@ -43,12 +39,8 @@ describe.only('FingerPrint Contract', function () {
         });
 
         it('should revert if data hash is already appended', async function () {
-            try {
-                await fingerPrintContract.appendData(dataHash);
-                expect.fail('Expected appendData to revert with duplicate data hash, but it did not');
-            } catch (error) {
-                expect((error as Error).message).to.include('revert');
-            }
+            await expect(fingerPrintContract.appendData(dataHash))
+                .to.be.revertedWithCustomError(fingerPrintContract, "DataHashAlreadyAppended");
         });
     });
 });
