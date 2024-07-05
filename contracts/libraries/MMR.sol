@@ -26,7 +26,7 @@ pragma solidity 0.8.26;
 
     }
 
-    Tree private tree;
+    Tree public tree;
 
     /// @dev This function is used to append a new hash data to the tree
     /// @param dataHash The data hashed to be appended to the tree
@@ -370,7 +370,7 @@ pragma solidity 0.8.26;
     /// @dev Check if a specific hash exists in the MMR
     /// @param hash The hash to check
     /// @return Boolean indicating if the hash exists in the tree
-    function isHashAppended(bytes32 hash) public view returns (bool) {
+    function isHashAppended(bytes32 hash) public view virtual returns (bool) {
         return tree.hashExists[hash];
     }
 

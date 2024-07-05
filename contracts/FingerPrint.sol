@@ -57,4 +57,11 @@ IFingerPrint
     append(dataHash);
   }
 
+  /// @dev Function to check if a hash has been appended to the MMR
+  /// @param dataHash The data hash to check
+  /// @return Boolean indicating if the hash has been appended
+  function isHashAppended(bytes32 dataHash) public view override returns (bool) {
+    return tree.hashExists[dataHash];
+  }
+
 }
