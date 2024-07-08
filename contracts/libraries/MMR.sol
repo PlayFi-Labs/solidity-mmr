@@ -9,7 +9,7 @@ pragma solidity 0.8.26;
 
 /// @title A contract to implement Merkle Mountain Range
 /// @dev This contract is a contract to implement Merkle Mountain Range (MMR) in Solidity.
- contract MMR {
+contract MMR {
 
     /// @dev The struct to store the Merkle Mountain Range (MMR data
     /// @param root The root hash of the tree

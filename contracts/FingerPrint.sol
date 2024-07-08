@@ -51,17 +51,18 @@ IFingerPrint
 
   /// @dev Function to append a new hash to the MMR
   /// @param dataHash The data hash to append to the MMR
-  function appendData(bytes32 dataHash) public {
+  function appendData(bytes32 dataHash) public override {
     require(dataHash != bytes32(0), InvalidDataHash());
     require(!isHashAppended(dataHash), DataHashAlreadyAppended());
     append(dataHash);
+    emit DataHashAppended(dataHash);
   }
 
   /// @dev Function to check if a hash has been appended to the MMR
   /// @param dataHash The data hash to check
   /// @return Boolean indicating if the hash has been appended
-  function isHashAppended(bytes32 dataHash) public view override returns (bool) {
+  function isHashAppended(bytes32 dataHash) public view override(IFingerPrint, MMR) returns (bool) {
     return tree.hashExists[dataHash];
-  }
+}
 
 }
