@@ -58,7 +58,7 @@ npm run compile
 4. **Deploy MMR contract**
 
 ```bash
-npx hardhat deploy-zksync --script 01_deploy_mmr.ts --network inMemoryNode
+npx hardhat deploy-zksync --script 01_deploy_fingerPrint-zkSync.ts --network inMemoryNode
 ```
 
 Please note that these steps assume that you have already installed all the necessary dependencies and have a correctly configured Hardhat environment.
