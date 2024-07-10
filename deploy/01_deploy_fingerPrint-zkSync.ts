@@ -2,7 +2,7 @@ import * as dotenv from "dotenv";
 import { DeployFunction } from "hardhat-deploy/types";
 import { Deployer } from "@matterlabs/hardhat-zksync";
 import { getNamedAccounts } from "hardhat";
-import { Provider, types, utils, Wallet } from "zksync-ethers";
+import { Provider, types, Wallet } from "zksync-ethers";
 import { HardhatRuntimeEnvironment } from "hardhat/types";
 
 dotenv.config();
@@ -27,7 +27,15 @@ const func: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
 
     await fingerPrintContract.waitForDeployment();
 
-    console.log(contractName + " deployed to:", await fingerPrintContract.getAddress());
+    const fingerPrintAddress = await fingerPrintContract.getAddress();
+    console.log(contractName + " deployed to:", fingerPrintAddress);
+
+    // Save the contract address to the deployments file
+    const deployments = await hre.deployments;
+    await deployments.save(contractName, {
+        address: fingerPrintAddress,
+        abi: contract.abi,
+    });
 
     return true;
 };

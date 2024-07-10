@@ -1,9 +1,14 @@
+import * as dotenv from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";
 import "@nomicfoundation/hardhat-toolbox";
 import "hardhat-deploy";
 import "@matterlabs/hardhat-zksync-node";
 import "@matterlabs/hardhat-zksync";
 import "@nomicfoundation/hardhat-chai-matchers";
+
+dotenv.config();
+
+import "./tasks/verify-playfi-contracts-zksync";
 
 const config: HardhatUserConfig = {
   zksolc: {
@@ -18,7 +23,7 @@ const config: HardhatUserConfig = {
     timeout: 10000000000,
   },
   solidity: {
-    version: "0.8.26",
+    version: "0.8.24",
     settings: {
       optimizer: {
         enabled: true,
@@ -31,8 +36,12 @@ const config: HardhatUserConfig = {
     zkSyncSepoliaTestnet: {
       url: "https://sepolia.era.zksync.dev",
       ethNetwork: "sepolia",
+      zksync: true,    },
+    albireo: {
+      url: process.env.ALBIREO_RPC,
+      ethNetwork: "albireo",
       zksync: true,
-      verifyURL: "https://explorer.sepolia.era.zksync.dev/contract_verification",
+      verifyURL: "https://albireo-explorer.playfi.ai/contract_verification",
     },
     zkSyncMainnet: {
       url: "https://mainnet.era.zksync.io",
@@ -76,7 +85,11 @@ const config: HardhatUserConfig = {
       324: 2, //TODO: set correct address
       421614: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB",
       80002: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB",
-      300: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB"
+      300: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB",
+      1612127: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB"
+    },
+    fingerPrintProxy: {
+      default: 2,
     },
   },
 };

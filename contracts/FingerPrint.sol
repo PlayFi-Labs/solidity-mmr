@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.26;
+pragma solidity 0.8.24;
 
 import "@openzeppelin/contracts-upgradeable/access/AccessControlUpgradeable.sol";
 import "@openzeppelin/contracts-upgradeable/proxy/utils/Initializable.sol";
@@ -61,8 +61,8 @@ IFingerPrint
   /// @dev Function to append a new hash to the MMR
   /// @param dataHash The data hash to append to the MMR
   function appendData(bytes32 dataHash) public override {
-    require(dataHash != bytes32(0), InvalidDataHash());
-    require(!isHashAppended(dataHash), DataHashAlreadyAppended());
+    if (dataHash != bytes32(0)) revert InvalidDataHash();
+    if (!isHashAppended(dataHash)) revert DataHashAlreadyAppended();
     append(dataHash);
     emit DataHashAppended(dataHash);
   }

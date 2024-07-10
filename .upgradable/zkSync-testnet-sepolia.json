@@ -1,22 +1,37 @@
 {
   "manifestVersion": "3.2",
   "admin": {
-    "address": "0xf6eEa73E8Ece13bedeb94A9fe0b197fFE6F0316A",
-    "txHash": "0x9fc393e70b62893842757650eb45a06541165278c033aa59d7dbc84fe22a0af7"
+    "address": "0x22489b3f66e1eb9a37241AB207C1f7364f20C50A",
+    "txHash": "0xabb713c34234d2c86da701a155673d3dc04aa5097968529aeb0a0a2076f89e5d"
   },
   "proxies": [
     {
-      "address": "0xF3A9ff49b8b59061A0E3b66Cc1E46ee783676372",
-      "txHash": "0x6c5c342a6c2f29b6052169c444264a4c52dc0bebf82e8db1f8eb5edd5c37f5fe",
+      "address": "0x52f285d66F84151D1A4aE44ED7D38f1825084F5c",
+      "txHash": "0xcd7797eea4679cf381bdd57cb11dd8dd0894a93bab8e9f3a409fe0c7e464e721",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x7d9c78d5eA873dC987f0bCE93781a1418cc103db",
+      "txHash": "0x65eb52610fcb7bdc595565900cdd047d30a22e7b132ee2267d762963b9a122d0",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x1F742b9199ADf2C2088aca3e5005327e1AdD3005",
+      "txHash": "0x7f058263bc6d7a09d9298ea3de59e1923a5f0708766354c6dac8a99f5719464b",
+      "kind": "transparent"
+    },
+    {
+      "address": "0x8512891a631a4E950b76062330cbB6eea99552EB",
+      "txHash": "0x486fa0e7344d72ca480ae668eb7e127130191d65181c99cc2ba12d2c9267fdc6",
       "kind": "transparent"
     }
   ],
   "impls": {
-    "f61e238ba4631797181bd9bc49dc7b6372fc83f51d844439a89d5c24ab662deb": {
-      "address": "0x2eC8400FF7Ea8d75334F9b4acD4A07716513c9d9",
-      "txHash": "0xebb201aa0369f611c938521894a58d72cf70a3f00e42bf155441fda6eb071f72",
+    "f2feedecbc86af97c0eec70456fef18c047a8fde513fd53af7c6515b06dc829f": {
+      "address": "0xaB79D5641667a6822ADFd9bAC2f5e9d59AddC72F",
+      "txHash": "0xbcfb3dfa9be97ba1a0007d654eebd9bfb591bf2ce926b17bea71c2bc076197b4",
       "layout": {
-        "solcVersion": "0.8.26",
+        "solcVersion": "0.8.24",
         "storage": [
           {
             "label": "_initialized",
@@ -71,7 +86,7 @@
             "label": "tree",
             "offset": 0,
             "slot": "151",
-            "type": "t_struct(Tree)2365_storage",
+            "type": "t_struct(Tree)3745_storage",
             "contract": "MMR",
             "src": "contracts/libraries/MMR.sol:29"
           }
@@ -131,7 +146,7 @@
             ],
             "numberOfBytes": "64"
           },
-          "t_struct(Tree)2365_storage": {
+          "t_struct(Tree)3745_storage": {
             "label": "struct MMR.Tree",
             "members": [
               {
