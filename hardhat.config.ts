@@ -38,7 +38,7 @@ const config: HardhatUserConfig = {
       ethNetwork: "sepolia",
       zksync: true,    },
     albireo: {
-      url: process.env.ALBIREO_RPC,
+      url: "https://albireo-rpc.playfi.ai",
       ethNetwork: "albireo",
       zksync: true,
       verifyURL: "https://albireo-explorer.playfi.ai/contract_verification",
