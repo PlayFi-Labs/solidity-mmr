@@ -21,12 +21,14 @@ describe('FingerPrint Contract', function () {
         const dataBytes2 = ethers.toUtf8Bytes(JSON.stringify(gamingData2));
         dataHash2 = ethers.keccak256(dataBytes2);
     });
+
     describe('Function appendData', function () {
         it('should revert if dataHash is zero', async function () {
             const zeroHash = '0x0000000000000000000000000000000000000000000000000000000000000000';
             await expect(fingerPrintContract.appendData(zeroHash))
                 .to.be.revertedWithCustomError(fingerPrintContract, "InvalidDataHash");
         });
+
         it('should append a valid dataHash successfully and emit DataHashAppended', async function () {
             await expect(fingerPrintContract.appendData(dataHash))
                 .to.emit(fingerPrintContract, 'DataHashAppended')
@@ -35,10 +37,12 @@ describe('FingerPrint Contract', function () {
             const hashExists = await fingerPrintContract.isHashAppended(dataHash);
             expect(hashExists).to.be.true;
         });
+
         it('should revert if data hash is already appended', async function () {
             await expect(fingerPrintContract.appendData(dataHash))
                 .to.be.revertedWithCustomError(fingerPrintContract, "DataHashAlreadyAppended");
         });
+
         it('should append a different valid dataHash successfully and emit DataHashAppended', async function () {
             await expect(fingerPrintContract.appendData(dataHash2))
                 .to.emit(fingerPrintContract, 'DataHashAppended')
