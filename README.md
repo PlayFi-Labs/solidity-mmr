@@ -1,15 +1,19 @@
-# Mountain Merkle Range
+# Mountain Merkle Range for FingerPrint Verification
 
-This project was scaffolded with [zksync-cli](https://github.com/matter-labs/zksync-cli) and is focused on the implementation of Merkle Mountain Ranges.
+This project, scaffolded with [zksync-cli](https://github.com/matter-labs/zksync-cli), focuses on the implementation of Merkle Mountain Ranges (MMRs) specifically for FingerPrint verification. 
 
-Merkle Mountain Ranges (MMRs) are an advanced data structure derived from Merkle trees, designed to store lists of items efficiently. One of their main benefits is the ability to provide compact proofs of inclusion, making it highly efficient to verify whether an item is part of a list without needing the entire dataset. Additionally, MMRs support append-only operations, allowing data to be added while maintaining the integrity and verifiability of the structure. This makes MMRs particularly useful in scenarios where data integrity and auditability are crucial, such as in blockchain technology and data security applications.
+MMRs are an advanced data structure derived from Merkle trees, designed to efficiently store lists of items. They are particularly beneficial for providing compact proofs of inclusion, which is crucial for verifying the authenticity and integrity of digital fingerprints in a blockchain environment. This feature makes it highly efficient to verify whether a fingerprint is part of a list without needing the entire dataset. Additionally, MMRs support append-only operations, allowing data to be added while maintaining the integrity and verifiability of the structure. This capability is essential for scenarios where data integrity and auditability are crucial, such as in blockchain technology and data security applications, making MMRs an ideal choice for fingerprint verification.
 
 ## Project Layout
 
-- `/contracts`: Contains solidity smart contracts.
-- `/deploy`: Scripts for contract deployment and interaction.
+- `/contracts`: Contains Solidity smart contracts.
+- `/deploy`: Scripts for contract deployment.
 - `/test`: Test files.
+- `/scripts`: Utility scripts for interaction.
+- `/tasks`: Directory for Hardhat tasks.
 - `hardhat.config.ts`: Configuration settings.
+
+The integration of MMRs for fingerprint verification offers a robust solution for ensuring the authenticity and integrity of data in blockchain applications. By leveraging the append-only and compact proof features of MMRs, this project aims to provide a secure and efficient method for managing digital fingerprints.
 
 ## Setting Up Environment
 
