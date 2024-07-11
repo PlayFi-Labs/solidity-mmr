@@ -6,8 +6,9 @@
   "repository": "https://github.com/PlayFi-Labs/solidity-mmr",
   "scripts": {
     "node": "npx hardhat node-zksync",
-    "deploy": "npx hardhat deploy-zksync --script 01_deploy_fingerPrint.ts  --network inMemoryNode",
     "compile": "hardhat compile",
+    "deploy": "npx hardhat deploy-zksync --script 01_deploy_fingerPrint-zkSync.ts  --network inMemoryNode",
+    "script": "npx hardhat run scripts/fp_interaction-SC.ts --network inMemoryNode",
     "clean": "hardhat clean",
     "test": "hardhat test --network hardhat"
   },

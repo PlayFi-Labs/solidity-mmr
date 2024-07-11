@@ -49,16 +49,24 @@ npm run node
 
 This command will start a local zkSync node that you can use for testing and development.
 
-3. **Compile contracts**
+3. **Compile Contracts**
 
 ```bash
 npm run compile
 ```
 
-4. **Deploy MMR contract**
+4. **Deploy FingerPrint Smart Contract**
 
 ```bash
 npx hardhat deploy-zksync --script 01_deploy_fingerPrint-zkSync.ts --network inMemoryNode
+```
+
+5. **Run the Script**
+
+Before running the script, you need to specify the address of the FingerPrint Proxy Smart Contract and the Private Key of your Wallet. This is done by setting the value of `FINGERPRINT_PROXY_SC` and `ZKSYNC_SEPOLIA_PRIVATE_KEY` in your `.env` file
+
+```bash
+npx hardhat run scripts/fp_interaction-SC.ts --network inMemoryNode
 ```
 
 Please note that these steps assume that you have already installed all the necessary dependencies and have a correctly configured Hardhat environment.
