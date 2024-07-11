@@ -1,5 +1,5 @@
 {
-  "name": "playfi-mmr",
+  "name": "playfi-fingerPrint",
   "version": "1.0.0",
   "description": "Mountain Merkle Range project focused on the implementation of Merkle Mountain Ranges (MMRs) in Solidity",
   "license": "MIT",
@@ -9,6 +9,7 @@
     "compile": "hardhat compile",
     "deploy": "npx hardhat deploy-zksync --script 01_deploy_fingerPrint-zkSync.ts  --network inMemoryNode",
     "script": "npx hardhat run scripts/fp_interaction-SC.ts --network inMemoryNode",
+    "verify": "npx hardhat verify-fingerprint-contracts-zksync --network zkSyncSepoliaTestnet",
     "clean": "hardhat clean",
     "test": "hardhat test --network hardhat"
   },

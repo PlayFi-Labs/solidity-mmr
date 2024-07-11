@@ -61,7 +61,15 @@ npm run compile
 npx hardhat deploy-zksync --script 01_deploy_fingerPrint-zkSync.ts --network inMemoryNode
 ```
 
-5. **Run the Script**
+5. **Verify FingerPrint Smart Contract**
+
+This command is used to verify the FingerPrint Smart Contract on the zkSync Sepolia Testnet
+
+```bash
+npx hardhat verify-fingerprint-contracts-zksync --network zkSyncSepoliaTestnet
+```
+
+6. **Run the Script**
 
 Before running the script, you need to specify the address of the FingerPrint Proxy Smart Contract and the Private Key of your Wallet. This is done by setting the value of `FINGERPRINT_PROXY_SC` and `ZKSYNC_SEPOLIA_PRIVATE_KEY` in your `.env` file
 
