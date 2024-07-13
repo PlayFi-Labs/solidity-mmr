@@ -43,4 +43,5 @@ interface IFingerPrint
   
   function appendData(bytes32 dataHash) external;
   function isHashAppended(bytes32 dataHash) external view returns (bool);
+  function verifyHash(bytes32 dataHash) external view returns (bool);
 }
