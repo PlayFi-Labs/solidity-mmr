@@ -38,6 +38,7 @@ interface IFingerPrint
 
   error InvalidDataHash();
   error DataHashAlreadyAppended();
+  error InvalidHashIndex();
   error InvalidAddress(address account);
   
   function appendData(bytes32 dataHash) external;

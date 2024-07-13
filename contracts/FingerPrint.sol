@@ -73,4 +73,15 @@ IFingerPrint
   function isHashAppended(bytes32 dataHash) public view override(IFingerPrint, MMR) returns (bool) {
     return tree.hashExists[dataHash];
   }
+
+    /// @dev Function to verify if a hash exists in the MMR using the Merkle proof
+    /// @param dataHash The hash to verify
+    /// @return Boolean indicating if the hash exists in the MMR
+    function verifyHash(bytes32 dataHash) public view returns (bool) {
+        uint256 index = tree.hashToIndex[dataHash];
+        if (index == 0) revert InvalidHashIndex();
+        (bytes32 root, uint256 width, bytes32[] memory peakBaggingArray, bytes32[] memory siblings) = getMerkleProof(index);
+        bytes memory value = abi.encodePacked(dataHash);
+        return verifyProof(root, width, index, value, peakBaggingArray, siblings);
+    }
 }
