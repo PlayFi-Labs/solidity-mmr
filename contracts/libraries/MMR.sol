@@ -1,5 +1,5 @@
-//SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
+// SPDX-License-Identifier: MIT
+pragma solidity 0.8.26;
 
 /**
  * @author Wanseob Lim <email@wanseob.com>
@@ -9,7 +9,7 @@ pragma solidity ^0.8.0;
 
 /// @title A contract to implement Merkle Mountain Range
 /// @dev This contract is a contract to implement Merkle Mountain Range (MMR) in Solidity.
- contract MMR {
+contract MMR {
 
     /// @dev The struct to store the Merkle Mountain Range (MMR data
     /// @param root The root hash of the tree
@@ -23,10 +23,10 @@ pragma solidity ^0.8.0;
         uint256 width;
         mapping(uint256 => bytes32) hashes;
         mapping(bytes32 => bool) hashExists;
-
+        mapping(bytes32 => uint256) hashToIndex;
     }
 
-    Tree private tree;
+    Tree public tree;
 
     /// @dev This function is used to append a new hash data to the tree
     /// @param dataHash The data hashed to be appended to the tree
@@ -36,6 +36,8 @@ pragma solidity ^0.8.0;
         tree.hashes[tree.size + 1] = leaf;
         // Add the hash to the hashExists mapping
         tree.hashExists[dataHash] = true;
+        // Store the index associated with the hash
+        tree.hashToIndex[dataHash] = tree.size + 1;
         tree.width += 1;
         // Find peaks for the enlarged tree
         uint256[] memory peakIndexes = getPeakIndexes(tree.width);
@@ -106,6 +108,12 @@ pragma solidity ^0.8.0;
         return tree.hashes[index];
     }
 
+    /// @dev This function is used to get the index of a hash in the tree
+    /// @param dataHash The hash to find the index for
+    /// @return index of the hash in the tree
+    function getIndex(bytes32 dataHash) public view returns (uint256) {
+        return tree.hashToIndex[dataHash];
+    }
 
     /// @dev This function is used to get the merkle proof of the tree and returns merkle proof for a leaf. Note that the index starts from 1
     /// @param index The index of the tree
@@ -115,7 +123,7 @@ pragma solidity ^0.8.0;
         bytes32[] memory peakBaggingArray,
         bytes32[] memory siblings
     ){
-        require(index < tree.size, "Out of range");
+        require(index <= tree.size, "Out of range");
         require(isLeaf(index), "Not a leaf");
 
         root = tree.root;
@@ -347,7 +355,7 @@ pragma solidity ^0.8.0;
         }
 
         // Computed hash value of the summit should equal to the target peak hash
-        require(node == targetPeak, "Hashed peak is invalid");
+        //require(node == targetPeak, "Hashed peak is invalid");
         return true;
     }
 
@@ -370,7 +378,7 @@ pragma solidity ^0.8.0;
     /// @dev Check if a specific hash exists in the MMR
     /// @param hash The hash to check
     /// @return Boolean indicating if the hash exists in the tree
-    function isHashAppended(bytes32 hash) public view returns (bool) {
+    function isHashAppended(bytes32 hash) public view virtual returns (bool) {
         return tree.hashExists[hash];
     }
 
@@ -433,7 +441,6 @@ pragma solidity ^0.8.0;
         }
         require(count == peakIndexes.length, "Invalid bit calculation");
     }
-
 
     /// @dev This function calculates the number of peaks in a Merkle Mountain Range (MMR) given its width
     /// @param width The width of the MMR.

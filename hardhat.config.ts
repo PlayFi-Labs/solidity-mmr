@@ -1,15 +1,47 @@
+import * as dotenv from "dotenv";
 import { HardhatUserConfig } from "hardhat/config";
+import "@nomicfoundation/hardhat-toolbox";
+import "hardhat-deploy";
 import "@matterlabs/hardhat-zksync-node";
 import "@matterlabs/hardhat-zksync";
+import "@nomicfoundation/hardhat-chai-matchers";
+
+dotenv.config();
+
+import "./tasks/verify-playfi-contracts-zksync";
 
 const config: HardhatUserConfig = {
+  zksolc: {
+    version: "latest",
+    compilerSource: "binary",
+    settings: {},
+  },
+  typechain: {
+    target: "ethers-v6",
+  },
+  mocha: {
+    timeout: 10000000000,
+  },
+  solidity: {
+    version: "0.8.26",
+    settings: {
+      optimizer: {
+        enabled: true,
+        runs: 9999,
+      },
+    },
+  },
   defaultNetwork: "inMemoryNode",
   networks: {
     zkSyncSepoliaTestnet: {
       url: "https://sepolia.era.zksync.dev",
       ethNetwork: "sepolia",
+      zksync: true,    },
+    albireo: {
+      url: "https://albireo-rpc.playfi.ai",
+      ethNetwork: "albireo",
       zksync: true,
-      verifyURL: "https://explorer.sepolia.era.zksync.dev/contract_verification",
+      verifyURL: "https://albireo-explorer.playfi.ai/contract_verification",
     },
     zkSyncMainnet: {
       url: "https://mainnet.era.zksync.io",
@@ -37,15 +69,28 @@ const config: HardhatUserConfig = {
       zksync: true,
     },
   },
-  zksolc: {
-    version: "latest",
-    settings: {
-      // find all available options in the official documentation
-      // https://era.zksync.io/docs/tools/hardhat/hardhat-zksync-solc.html#configuration
-    },
+  gasReporter: {
+    enabled: process.env.REPORT_GAS !== undefined,
+    currency: "USD",
   },
-  solidity: {
-    version: "0.8.17",
+  namedAccounts: {
+    deployer: {
+      default: 0,
+      42161: 0, //TODO: set correct address
+      324: 0, //TODO: set correct address
+    },
+    admin: {
+      default: 2,
+      42161: 2, //TODO: set correct address
+      324: 2, //TODO: set correct address
+      421614: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB",
+      80002: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB",
+      300: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB",
+      1612127: "0x76D4e57584Bc60A965CE98830F3567d4A23d3BDB"
+    },
+    fingerPrintProxy: {
+      default: 2,
+    },
   },
 };
 

@@ -13,6 +13,8 @@ cache
 artifacts-zk
 cache-zk
 deployments-zk
+.upgradeable/
+deployments/
 
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
@@ -51,6 +53,7 @@ jspm_packages/
 
 # TypeScript v1 declaration files
 typings/
+typechain-types/
 
 # TypeScript cache
 *.tsbuildinfo

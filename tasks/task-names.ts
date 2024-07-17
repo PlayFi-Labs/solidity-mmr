@@ -1,0 +1,1 @@
+export const VERIFYFINGERPRINTCONTRACTSZKSYNC = "verify-fingerprint-contracts-zksync";
